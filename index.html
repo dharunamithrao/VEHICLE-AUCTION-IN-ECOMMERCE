@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXURY BIDS | Premium Vehicle Auction House</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ffd700, #ffa500);
+            border-radius: 5px;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .animated-bg span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 215, 0, 0.05);
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #ffd700;
+        }
+
+        .logo span {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+        }
+
+        .btn-login:hover {
+            background: #ffd700;
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-register {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #0f172a;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #0f172a;
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-secondary:hover {
+            background: #fff;
+            color: #0f172a;
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Featured Section */
+        .featured {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span {
+            color: #ffd700;
+        }
+
+        .section-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .vehicle-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #0f172a;
+            border-color: transparent;
+        }
+
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .vehicle-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            position: relative;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+        }
+
+        .vehicle-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .vehicle-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .vehicle-card:hover .vehicle-image img {
+            transform: scale(1.1);
+        }
+
+        .vehicle-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #0f172a;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+
+        .vehicle-info {
+            padding: 1.5rem;
+        }
+
+        .vehicle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .vehicle-header h3 {
+            font-size: 1.5rem;
+            color: #ffd700;
+        }
+
+        .vehicle-header .year {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        .vehicle-details {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .vehicle-details span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .vehicle-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin: 1rem 0;
+        }
+
+        .vehicle-price small {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: normal;
+        }
+
+        .bid-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            border: none;
+            border-radius: 10px;
+            color: #0f172a;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bid-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .stat-item i {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .step p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 2.5rem;
+            color: #0f172a;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            color: #0f172a;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            padding: 1rem 2rem;
+            background: #0f172a;
+            color: #ffd700;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            background: #1e293b;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            padding: 3rem 5% 1rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h4 {
+            color: #ffd700;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ffd700;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffd700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #ffd700;
+            color: #0f172a;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                height: auto;
+                padding: 100px 5%;
+            }
+
+            .hero-content p {
+                margin: 0 auto 2rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                margin: 1rem 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .vehicle-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: 0.5s;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255, 215, 0, 0.2);
+            border-top: 5px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <span style="left: 10%; animation-duration: 20s;"></span>
+        <span style="left: 20%; animation-duration: 25s; animation-delay: 2s;"></span>
+        <span style="left: 30%; animation-duration: 18s; animation-delay: 4s;"></span>
+        <span style="left: 40%; animation-duration: 22s; animation-delay: 1s;"></span>
+        <span style="left: 50%; animation-duration: 28s; animation-delay: 3s;"></span>
+        <span style="left: 60%; animation-duration: 15s; animation-delay: 5s;"></span>
+        <span style="left: 70%; animation-duration: 24s; animation-delay: 2.5s;"></span>
+        <span style="left: 80%; animation-duration: 19s; animation-delay: 4.5s;"></span>
+        <span style="left: 90%; animation-duration: 26s; animation-delay: 1.5s;"></span>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-gavel"></i>
+            <span>LUXURY BIDS</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#featured">Vehicles</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#auctions">Auctions</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="auth-buttons">
+            <button class="btn btn-login">Login</button>
+            <button class="btn btn-register">Register</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>
+                Drive Your Dream
+                <span>Luxury Vehicles</span>
+                At Unbeatable Prices
+            </h1>
+            <p>Join thousands of satisfied bidders in the world's most prestigious vehicle auction platform. Find your perfect luxury car, sports bike, or classic automobile.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">Explore Vehicles</button>
+                <button class="btn btn-secondary">How It Works</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200" alt="Luxury Car">
+        </div>
+    </section>
+
+    <!-- Featured Vehicles -->
+    <section class="featured" id="featured">
+        <div class="section-header">
+            <h2>Featured <span>Vehicles</span></h2>
+            <p>Discover our hand-picked selection of premium vehicles currently up for auction</p>
+        </div>
+
+        <!-- Vehicle Filters -->
+        <div class="vehicle-filters">
+            <button class="filter-btn active">All Vehicles</button>
+            <button class="filter-btn">Luxury Cars</button>
+            <button class="filter-btn">Sports Cars</button>
+            <button class="filter-btn">Super Bikes</button>
+            <button class="filter-btn">Classic Cars</button>
+        </div>
+
+        <!-- Vehicle Grid -->
+        <div class="vehicle-grid">
+            <!-- Car 1: Lamborghini Huracan -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=800" alt="Lamborghini Huracan">
+                    <div class="vehicle-badge">Hot Bid</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>Lamborghini Huracán</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 640 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> Automatic</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $325,000 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Car 2: Ferrari F8 Tributo -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=800" alt="Ferrari F8 Tributo">
+                    <div class="vehicle-badge">New</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>Ferrari F8 Tributo</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 710 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> Automatic</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $295,000 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Bike 1: Ducati Panigale V4 -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=800" alt="Ducati Panigale V4">
+                    <div class="vehicle-badge">Hot Bid</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>Ducati Panigale V4</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 214 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> 6-Speed</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $28,500 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Car 3: Rolls Royce Ghost -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1631295868223-63265b40d9e4?w=800" alt="Rolls Royce Ghost">
+                    <div class="vehicle-badge">Premium</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>Rolls Royce Ghost</h3>
+                        <span class="year">2024</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 563 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> Automatic</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $410,000 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Bike 2: BMW S1000RR -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1609630875171-b1321377a9c9?w=800" alt="BMW S1000RR">
+                    <div class="vehicle-badge">Sport</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>BMW S1000RR</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 205 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> 6-Speed</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $19,500 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Car 4: Porsche 911 Turbo S -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800" alt="Porsche 911 Turbo S">
+                    <div class="vehicle-badge">Featured</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>Porsche 911 Turbo S</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 640 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> PDK</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $235,000 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Bike 3: Kawasaki Ninja H2 -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1568901838579-c7f3e2e5d6b1?w=800" alt="Kawasaki Ninja H2">
+                    <div class="vehicle-badge">Supercharged</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>Kawasaki Ninja H2</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 310 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> 6-Speed</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $32,000 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Car 5: McLaren 720S -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=800" alt="McLaren 720S">
+                    <div class="vehicle-badge">Limited</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>McLaren 720S</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 710 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> SSG</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $315,000 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Bike 4: Yamaha YZF-R1M -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1558980664-10dbd0c7f888?w=800" alt="Yamaha YZF-R1M">
+                    <div class="vehicle-badge">Race</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>Yamaha YZF-R1M</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 200 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> 6-Speed</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $24,500 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+
+            <!-- Car 6: Aston Martin DBS -->
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=800" alt="Aston Martin DBS">
+                    <div class="vehicle-badge">Luxury</div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <h3>Aston Martin DBS</h3>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="vehicle-details">
+                        <span><i class="fas fa-tachometer-alt"></i> 715 HP</span>
+                        <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                        <span><i class="fas fa-cog"></i> Automatic</span>
+                    </div>
+                    <div class="vehicle-price">
+                        $335,000 <small>Starting bid</small>
+                    </div>
+                    <button class="bid-btn">Place Bid</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stat-item">
+            <i class="fas fa-car"></i>
+            <h3>500+</h3>
+            <p>Vehicles Sold</p>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <h3>10K+</h3>
+            <p>Happy Bidders</p>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-gavel"></i>
+            <h3>2.5K+</h3>
+            <p>Live Auctions</p>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-trophy"></i>
+            <h3>15+</h3>
+            <p>Years Experience</p>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-header">
+            <h2>How It <span>Works</span></h2>
+            <p>Start bidding in three simple steps</p>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Create Account</h3>
+                <p>Register for free and verify your identity to start bidding on premium vehicles</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Find Your Dream Vehicle</h3>
+                <p>Browse through our extensive collection of luxury cars and bikes</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Place Your Bid</h3>
+                <p>Bid against other enthusiasts and win your dream vehicle at the best price</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <h2>Never Miss an Auction</h2>
+        <p>Subscribe to get notified about new listings and exclusive deals</p>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Enter your email address">
+            <button type="submit">Subscribe</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>LUXURY BIDS</h4>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1rem;">The world's premier vehicle auction platform for luxury and exotic automobiles.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#">Luxury Cars</a></li>
+                    <li><a href="#">Sports Cars</a></li>
+                    <li><a href="#">Super Bikes</a></li>
+                    <li><a href="#">Classic Cars</a></li>
+                    <li><a href="#">Electric Vehicles</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 123 Luxury Lane, Beverly Hills, CA 90210</li>
+                    <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +1 (888) 123-4567</li>
+                    <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> info@luxurybids.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 LUXURY BIDS. All rights reserved. The ultimate destination for luxury vehicle auctions.</p>
+        </div>
+        <div class="auth-buttons">
+    <button class="btn btn-login" onclick="showLoginModal()">Login</button>
+    <button class="btn btn-register" onclick="showLoginModal()">Register</button>
+</div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Loading Animation
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Filter Buttons Animation
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Here you can add filtering logic
+                // For demo, we'll just show an alert
+                if(this.textContent !== 'All Vehicles') {
+                    alert(`Showing ${this.textContent} (Demo - Filter functionality would be implemented with actual data)`);
+                }
+            });
+        });
+
+        // Bid Buttons Animation
+        const bidBtns = document.querySelectorAll('.bid-btn');
+        bidBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const vehicleCard = this.closest('.vehicle-card');
+                const vehicleName = vehicleCard.querySelector('h3').textContent;
+                alert(`Bidding started for ${vehicleName}! (Demo - Would redirect to bidding page)`);
+            });
+        });
+
+        // Navbar Background Change on Scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+                navbar.style.backdropFilter = 'blur(20px)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.05)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            }
+        });
+
+        // Newsletter Form
+        document.querySelector('.newsletter-form button').addEventListener('click', function() {
+            const email = document.querySelector('.newsletter-form input').value;
+            if(email) {
+                alert(`Thank you for subscribing! (Demo - Would send confirmation to ${email})`);
+                document.querySelector('.newsletter-form input').value = '';
+            } else {
+                alert('Please enter your email address');
+            }
+        });
+
+        // Auth Buttons
+        document.querySelector('.btn-login').addEventListener('click', function() {
+            alert('Login functionality would be implemented here (Demo)');
+        });
+
+        document.querySelector('.btn-register').addEventListener('click', function() {
+            alert('Registration functionality would be implemented here (Demo)');
+        });
+
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            document.querySelector('#featured').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            document.querySelector('#how-it-works').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Add hover effect to vehicle cards
+        const vehicleCards = document.querySelectorAll('.vehicle-card');
+        vehicleCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const heroImage = document.querySelector('.hero-image');
+            const scrolled = window.pageYOffset;
+            if (heroImage) {
+                heroImage.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+        });
+
+        // Counter animation for stats
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-item h3');
+            stats.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target + (stat.textContent.includes('+') ? '+' : '');
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current) + (stat.textContent.includes('+') ? '+' : '');
+                    }
+                }, 20);
+            });
+        }
+
+        // Trigger stats animation when stats section comes into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('.stats'));
+    </script>
+</body>
+</html>
